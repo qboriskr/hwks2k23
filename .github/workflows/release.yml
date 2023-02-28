@@ -2,6 +2,8 @@ name: 'C++ CI'
 
 on:
   push:
+    paths:
+      - 'helloworld/**'
     branches:
       - master
       - feature/github_actions
@@ -13,11 +15,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-      - run: sudo apt-get update && sudo apt-get install libboost-test-dev -y
-      - run: cmake helloworld -DPATCH_VERSION=${{ github.run_number }} -DWITH_BOOST_TEST=ON
-      - run: cmake --build .
-      - run: cmake --build . --target test
-      - run: cmake --build . --target package
+      - run: |
+          sudo apt-get update && sudo apt-get install libboost-test-dev -y
+          cmake . -DPATCH_VERSION=${{ github.run_number }} -DWITH_BOOST_TEST=ON
+          cmake --build .
+          cmake --build . --target test
+          cmake --build . --target package
+          working-directory: ./helloworld
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -35,6 +39,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./helloworld-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ./helloworld/helloworld-0.0.${{ github.run_number }}-Linux.deb
           asset_name: helloworld-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
