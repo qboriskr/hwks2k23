@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'helloworld/**'
+      - '.github/**'
     branches:
       - master
       - feature/github_actions
@@ -21,7 +22,7 @@ jobs:
           cmake --build .
           cmake --build . --target test
           cmake --build . --target package
-          working-directory: ./helloworld
+        working-directory: ./helloworld
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
