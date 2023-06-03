@@ -4,16 +4,42 @@ on:
   push:
     paths:
       - 'helloworld/**'
+      - 'homework*/**'
       - '.github/**'
     branches:
       - master
       - feature/github_actions
 
 jobs:
+  # JOB to run change detection
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      # Expose matched filters as job 'packages' output variable
+      packages: ${{ steps.filter.outputs.changes }}
+    steps:
+      # For pull requests it's not necessary to checkout the code
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            helloworld:
+                - 'helloworld/**'
+            homework02:
+                - 'homework02/**'
+
+jobs:
   build:
+    needs: changes
+    strategy:
+      matrix:
+        # https://lightrun.com/answers/dorny-paths-filter-is-there-a-way-to-list-only-folders-with-changes
+        # Parse JSON array containing names of all filters matching any of changed files
+        # e.g. ['package1', 'package2'] if both package folders contains changes
+        package: ${{ fromJSON(needs.changes.outputs.packages) }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
       - run: |
@@ -22,7 +48,7 @@ jobs:
           cmake --build .
           cmake --build . --target test
           cmake --build . --target package
-        working-directory: ./helloworld
+        working-directory: ./${{ matrix.package }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -40,6 +66,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./helloworld/helloworld-0.0.${{ github.run_number }}-Linux.deb
-          asset_name: helloworld-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ./${{ matrix.package }}/${{ matrix.package }}-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: ${{ matrix.package }}-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
