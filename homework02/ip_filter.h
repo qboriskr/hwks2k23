@@ -4,7 +4,10 @@
 
 #pragma once
 
+#include <algorithm>
+#include <iostream>
 #include <string>
+#include <tuple>
 #include <vector>
 
 using ParsedIP = std::tuple<int, int, int, int>;
