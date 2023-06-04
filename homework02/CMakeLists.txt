@@ -6,7 +6,7 @@ project(homework02 VERSION ${PROJECT_VERSION})
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Stub, no tests in this homework
+# Stub, no tests in this homework:
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
 add_executable(ip_filter main.cpp ip_filter.cpp)

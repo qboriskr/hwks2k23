@@ -41,6 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           submodules: true
       - run: |
           sudo apt-get update && sudo apt-get install libboost-test-dev -y
