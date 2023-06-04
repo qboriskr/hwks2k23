@@ -15,7 +15,9 @@ BOOST_INCLUDEDIR=C:\WindowsKits\boost_1_81_0
 BOOST_ROOT=C:\WindowsKits\boost_1_81_0
 (да, выглядит странно что include совпадает с root).
 
-И еще нужно в Clion добавить settings - Build Execution Deployment:
+И еще нужно в Clion добавить settings:
+- Build Execution Deployment:
   Toolchains - добавить visual studio 2022.
-  Cmake - прописать что используем вышеупомянутый visual studio и выбрать опцию Generator = Let cmake decide.
+ 
+- Cmake - прописать что используем вышеупомянутый visual studio и выбрать опцию Generator = Let cmake decide.
                                                                    
