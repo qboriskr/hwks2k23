@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE(test_valid_version) {
         int old;
         std::make_tuple(std::ref(sn), std::ref(old)) = foo(1, 2);
         std::tie(sn, old) = foo(1, 2);
-        BOOST_CHECK(sn=="surnam);
+        BOOST_CHECK(sn=="surname");
         BOOST_CHECK(old==19);
 }
 

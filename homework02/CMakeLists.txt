@@ -6,15 +6,13 @@ project(homework02 VERSION ${PROJECT_VERSION})
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Stub, no tests in this homework:
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
-
 
 add_executable(ip_filter main.cpp ip_filter.cpp)
 
 install(TARGETS ip_filter RUNTIME DESTINATION bin)
 
-if(WITH_BOOST_TEST)
+if (WITH_BOOST_TEST)
     find_package(Boost COMPONENTS unit_test_framework REQUIRED)
     add_executable(test_tuple test_tuple.cpp)
     set_target_properties(test_tuple PROPERTIES
@@ -24,7 +22,7 @@ if(WITH_BOOST_TEST)
             INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
             )
     target_link_libraries(test_tuple ${Boost_LIBRARIES})
-endif()
+endif ()
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
@@ -33,7 +31,7 @@ set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 set(CPACK_PACKAGE_CONTACT example@example.com)
 include(CPack)
 
-if(WITH_BOOST_TEST)
+if (WITH_BOOST_TEST)
     enable_testing()
     add_test(test_tuple test_tuple)
-endif()
+endif ()
