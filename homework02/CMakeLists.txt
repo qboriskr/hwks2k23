@@ -14,6 +14,9 @@ add_executable(ip_filter main.cpp ip_filter.cpp)
 
 install(TARGETS ip_filter RUNTIME DESTINATION bin)
 
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+add_executable(test_tuple test_tuple.cpp)
+
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
