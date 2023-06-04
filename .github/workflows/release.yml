@@ -19,12 +19,14 @@ jobs:
       packages: ${{ steps.filter.outputs.changes }}
     steps:
       # For pull requests it's not necessary to checkout the code
-      - uses: dorny/paths-filter@v2
+      - uses: dorny/paths-filter@v2.2.0
         id: filter
         with:
           filters: |
-            helloworld: helloworld
-            homework02: homework02
+            helloworld: 
+              - 'helloworld/**'
+            homework02: 
+              - 'homework02/**'
   # JOB to build and test each of modified packages
   build:
     needs: changes
