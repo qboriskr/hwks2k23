@@ -35,6 +35,9 @@ jobs:
         # e.g. ['package1', 'package2'] if both package folders contains changes
         package: ${{ fromJSON(needs.changes.outputs.packages) }}
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ matrix.package }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -45,7 +48,6 @@ jobs:
           cmake --build .
           cmake --build . --target test
           cmake --build . --target package
-        working-directory: ${{ matrix.package }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
