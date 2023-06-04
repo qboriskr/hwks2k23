@@ -23,10 +23,8 @@ jobs:
         id: filter
         with:
           filters: |
-            helloworld:
-                - 'helloworld/**'
-            homework02:
-                - 'homework02/**'
+            helloworld: helloworld
+            homework02: homework02
   # JOB to build and test each of modified packages
   build:
     needs: changes
@@ -47,7 +45,7 @@ jobs:
           cmake --build .
           cmake --build . --target test
           cmake --build . --target package
-        working-directory: ./${{ matrix.package }}
+        working-directory: ${{ matrix.package }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
