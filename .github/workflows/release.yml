@@ -27,8 +27,7 @@ jobs:
                 - 'helloworld/**'
             homework02:
                 - 'homework02/**'
-
-jobs:
+  # JOB to build and test each of modified packages
   build:
     needs: changes
     strategy:
